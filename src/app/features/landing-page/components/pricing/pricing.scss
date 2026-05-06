@@ -1,0 +1,141 @@
+    .pricing-section {
+  padding: 80px 20px;
+  background-color: #fcfcfc; /* Fundo levemente cinza para separar do Hero branco */
+  text-align: center;
+
+  .pricing-header {
+    margin-bottom: 60px;
+    h2 {
+      font-size: 2.5rem;
+      color: var(--cinza-escuro);
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 1.1rem;
+      color: #666;
+    }
+  }
+
+  .pricing-cards {
+    display: flex;
+    flex-direction: column; /* Mobile First: Empilhados */
+    gap: 40px;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+
+    /* Desktop: Lado a lado */
+    @media (min-width: 992px) {
+      flex-direction: row;
+      justify-content: center;
+      align-items: center; /* Permite que o destaque cresça sem deformar os irmãos */
+      gap: 30px;
+    }
+  }
+
+  .card {
+    background: var(--branco);
+    border-radius: 12px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 350px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #eaeaea;
+
+    /* ====== LÓGICA DO DESTAQUE ====== */
+    &.highlighted {
+      border: 2px solid var(--verde-getgym);
+      box-shadow: 0 15px 35px rgba(140, 198, 63, 0.2);
+      transform: scale(1.08); /* Faz o card central crescer 8% no eixo X e Y */
+      z-index: 2; /* Garante que a sombra/borda fique por cima dos outros cards */
+
+      .card-header h3 {
+        color: var(--verde-getgym);
+      }
+    }
+    /* ================================= */
+
+    .badge {
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--verde-getgym);
+      color: var(--branco);
+      padding: 6px 20px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .card-header {
+      margin-bottom: 30px;
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: var(--cinza-escuro);
+      }
+      .price {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        .currency { font-size: 1.2rem; font-weight: bold; color: var(--cinza-escuro); }
+        .amount { font-size: 3.5rem; font-weight: bold; margin: 0 5px; color: var(--cinza-escuro); }
+        .period { color: #888; font-weight: 500; }
+      }
+    }
+
+    .features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 30px 0;
+      text-align: left;
+      flex-grow: 1; /* Empurra o botão sempre para o rodapé do card */
+
+      li {
+        margin-bottom: 16px;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: flex-start;
+        color: #444;
+
+        .check-icon {
+          color: var(--verde-getgym);
+          font-weight: bold;
+          margin-right: 12px;
+          font-size: 1.1rem;
+        }
+      }
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      text-transform: uppercase;
+
+      &.btn-primary {
+        background: var(--verde-getgym);
+        color: var(--branco);
+        &:hover { filter: brightness(1.05); transform: translateY(-2px); }
+      }
+
+      &.btn-secondary {
+        background: #f0f0f0;
+        color: var(--cinza-escuro);
+        &:hover { background: #e4e4e4; transform: translateY(-2px); }
+      }
+    }
+  }
+}

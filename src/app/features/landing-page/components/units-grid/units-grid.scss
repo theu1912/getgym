@@ -1,0 +1,51 @@
+.units-container {
+  padding: 50px 20px;
+  text-align: center;
+
+  h2 {
+    color: var(--verde-getgym);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  border: 2px solid var(--verde-getgym);
+  border-radius: 15px;
+  padding: 25px;
+  transition: transform 0.3s ease;
+  background: white;
+
+  &:hover {
+    transform: translateY(-10px); // Efeito de flutuar ao passar o mouse
+    box-shadow: 0 10px 20px rgba(140, 198, 63, 0.2);
+  }
+
+  h3 {
+    color: var(--verde-getgym);
+    margin-top: 0;
+  }
+
+  .btn-contact {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    background-color: var(--verde-getgym);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: bold;
+    
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
+}

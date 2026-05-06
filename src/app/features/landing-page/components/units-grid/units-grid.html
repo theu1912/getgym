@@ -1,0 +1,17 @@
+<section class="units-container">
+  <h2>Nossas Unidades</h2>
+  <div class="grid">
+    <!-- O @for percorre sua lista do TS e cria os cards automaticamente -->
+    @for (unit of gymUnits; track unit.name) {
+      <div class="card">
+        <h3>{{ unit.name }}</h3>
+        <p><strong>📍 Endereço:</strong> {{ unit.address }}</p>
+        <p><strong>⏰ Horário:</strong> {{ unit.hours }}</p>
+        
+        <a [href]="unit.whatsappLink" target="_blank" class="btn-contact">
+          Falar no WhatsApp: {{ unit.phone }}
+        </a>
+      </div>
+    }
+  </div>
+</section>

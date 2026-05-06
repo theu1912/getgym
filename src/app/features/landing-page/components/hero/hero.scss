@@ -1,0 +1,76 @@
+.hero-section {
+  position: relative;
+  height: 85vh; /* Ocupa 85% da tela inicial, deixando um "espião" da próxima seção */
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Imagem temporária de academia para o nosso case. Depois trocamos por uma foto real da Getgym */
+  background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1920'); 
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  color: var(--branco);
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(30, 30, 30, 0.75); /* Fundo escuro transparente */
+    z-index: 1;
+  }
+
+  .content-container {
+    position: relative;
+    z-index: 2; /* Garante que o texto fique acima do overlay */
+    max-width: 800px;
+    padding: 0 20px;
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      
+      /* Destaque visual usando a cor da identidade da academia */
+      span {
+        color: var(--verde-getgym);
+      }
+    }
+
+    p {
+      font-size: 1.25rem;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .btn-primary {
+      background-color: var(--verde-getgym);
+      color: var(--branco);
+      border: none;
+      padding: 16px 40px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+
+      &:hover {
+        /* Efeito de interatividade para melhorar o feedback do usuário */
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(140, 198, 63, 0.3);
+      }
+    }
+  }
+}
+
+/* Responsividade: Ajusta o tamanho da fonte para celulares */
+@media (max-width: 768px) {
+  .hero-section .content-container h1 {
+    font-size: 2.5rem;
+  }
+}

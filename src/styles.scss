@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+// Definição da Identidade GetGym
+:root {
+  --verde-getgym: #8cc63f; // Esse verde limão da fachada
+  --branco: #ffffff;
+  --cinza-escuro: #2d2d2d; // Para dar contraste nos textos
+}
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif; // Fonte comum em academias
+  background-color: var(--branco);
+  color: var(--cinza-escuro);
+}

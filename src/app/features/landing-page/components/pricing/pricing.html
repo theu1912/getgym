@@ -1,0 +1,45 @@
+<section class="pricing-section">
+  <div class="pricing-header">
+    <h2>Escolha o seu plano</h2>
+    <p>Planos flexíveis para a sua rotina e seus objetivos.</p>
+  </div>
+
+  <div class="pricing-cards">
+    <!-- Loop dinâmico do Angular -->
+    @for (plan of plans; track plan.name) {
+      <!-- A classe 'highlighted' só é aplicada se o plano for o Premium -->
+      <div class="card" [class.highlighted]="plan.highlight">
+        
+        @if (plan.badge) {
+          <div class="badge">{{ plan.badge }}</div>
+        }
+        
+        <div class="card-header">
+          <h3>{{ plan.name }}</h3>
+          <div class="price">
+            <span class="currency">R$</span>
+            <span class="amount">{{ plan.price }}</span>
+            <span class="period">{{ plan.period }}</span>
+          </div>
+        </div>
+
+        <ul class="features">
+          @for (feature of plan.features; track feature) {
+            <li>
+              <span class="check-icon">✓</span>
+              {{ feature }}
+            </li>
+          }
+        </ul>
+
+        <!-- Botão Dinâmico -->
+        <button
+          [class.btn-primary]="plan.highlight"
+          [class.btn-secondary]="!plan.highlight"
+          (click)="redirectToWhatsApp(plan.whatsappMessage)">
+          Garantir Este Plano
+        </button>
+      </div>
+    }
+  </div>
+</section>
