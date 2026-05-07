@@ -1,0 +1,70 @@
+<div class="table-container">
+  <div class="table-header">
+    <h2>Gestão de Alunos</h2>
+    <button class="btn-export">Exportar Relatório</button>
+  </div>
+
+  <!-- Nova Barra de Ferramentas (Filtros e Busca) -->
+  <div class="toolbar">
+    <div class="search-box">
+      <input 
+        type="text" 
+        placeholder="Buscar aluno por nome..." 
+        (input)="onSearch($event)"
+      >
+    </div>
+    <div class="filter-tabs">
+      <button [class.active]="currentFilter === 'Todos'" (click)="setFilter('Todos')">Todos</button>
+      <button [class.active]="currentFilter === 'Em dia'" (click)="setFilter('Em dia')">Em dia</button>
+      <button [class.active]="currentFilter === 'Atrasado'" (click)="setFilter('Atrasado')">Atrasados</button>
+    </div>
+  </div>
+
+  <table class="corporate-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome do Aluno</th>
+        <th>Último Acesso</th>
+        <th>Plano Atual</th>
+        <th>Status</th>
+        <th>Ação Rápida</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Agora o loop itera sobre filteredStudents() -->
+      @for (student of filteredStudents; track student.id) {
+        <tr>
+          <td>#{{ student.id }}</td>
+          <td class="fw-bold">{{ student.name }}</td>
+          
+          <!-- Nova Coluna com Formatação Condicional -->
+          <td>
+            <span class="access-text" [ngClass]="{'alert-text': student.lastAccessDays > 15}">
+              Há {{ student.lastAccessDays }} dias
+            </span>
+          </td>
+
+          <td>{{ student.plan }}</td>
+          <td>
+            <span class="badge" [ngClass]="student.status === 'Em dia' ? 'badge-success' : 'badge-danger'">
+              {{ student.status }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-whatsapp" (click)="contactStudent(student)">
+              💬 Chamar no Whats
+            </button>
+          </td>
+        </tr>
+      }
+
+      <!-- Mensagem de estado vazio (quando a busca não encontra resultados) -->
+      @if (filteredStudents.length === 0) {
+        <tr>
+          <td colspan="6" class="empty-state">Nenhum aluno encontrado com esses filtros.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

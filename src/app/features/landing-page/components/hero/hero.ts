@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-hero',
@@ -7,10 +8,12 @@ import { Component } from '@angular/core';
   styleUrl: './hero.scss'
 })
 export class HeroComponent {
-  redirectToWhatsApp(): void {
-    const gymPhone = '5541984496767'; 
-    const customMessage = 'Olá! Gostaria de conhecer a Getgym e entender melhor os planos.';
-    const whatsappUrl = `https://wa.me/${gymPhone}?text=${encodeURIComponent(customMessage)}`;
-    window.open(whatsappUrl, '_blank');
+  
+  // Injeção de dependência moderna do Angular
+  private viewportScroller = inject(ViewportScroller);
+  
+  scrollToPricing(): void {
+    // Procura na tela um elemento com o ID 'planos' e rola até ele
+    this.viewportScroller.scrollToAnchor('planos');
   }
 }

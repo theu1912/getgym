@@ -1,0 +1,107 @@
+.footer-section {
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+  padding: 60px 20px 0; 
+
+  .footer-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #333;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .footer-brand {
+    h3 {
+      color: var(--verde-getgym);
+      font-size: 2rem;
+      margin: 0 0 15px 0;
+      letter-spacing: 1px;
+    }
+    p {
+      margin: 0 0 20px 0;
+      color: #bbb;
+    }
+    .social-links a {
+      display: inline-block;
+      color: var(--branco);
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 16px;
+      border: 1px solid var(--branco);
+      border-radius: 4px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: var(--verde-getgym);
+        border-color: var(--verde-getgym);
+        color: var(--cinza-escuro);
+      }
+    }
+  }
+
+  .footer-units {
+    h4 {
+      font-size: 1.2rem;
+      margin: 0 0 15px 0;
+      color: var(--branco);
+      text-transform: uppercase;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li {
+        margin-bottom: 10px;
+        position: relative;
+        padding-left: 15px;
+
+        &::before {
+          content: '•';
+          color: var(--verde-getgym);
+          position: absolute;
+          left: 0;
+        }
+
+        /* Estilização para os sites das unidades clicáveis */
+        a {
+          color: #bbb;
+          text-decoration: none;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: var(--verde-getgym);
+          }
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    
+    p {
+      margin: 0;
+    }
+
+    /* Estilização da sua assinatura clicável */
+    a {
+      color: #666;
+      text-decoration: none;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: var(--verde-getgym);
+      }
+    }
+  }
+}

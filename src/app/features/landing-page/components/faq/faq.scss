@@ -1,0 +1,100 @@
+.faq-section {
+  padding: 80px 20px;
+  background-color: var(--branco);
+  text-align: center;
+
+  h2 {
+    font-size: 2.5rem;
+    color: var(--cinza-escuro);
+    margin-bottom: 40px;
+  }
+
+  .faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+
+    /* Estilos do Bloco de Contato Direto */
+    .faq-support {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 2px dashed #eaeaea;
+      text-align: center;
+
+      p {
+        color: var(--cinza-escuro);
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .btn-support {
+        background-color: transparent;
+        color: var(--verde-getgym);
+        border: 2px solid var(--verde-getgym);
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: var(--verde-getgym);
+          color: var(--branco);
+        }
+      }
+    }
+  }
+
+  .faq-item {
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 10px;
+
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 20px 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--cinza-escuro);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      font-family: inherit;
+
+      &:hover {
+        color: var(--verde-getgym);
+      }
+
+      .icon {
+        font-size: 1.5rem;
+        color: var(--verde-getgym);
+        font-weight: 400;
+      }
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out, padding 0.4s ease;
+      padding: 0 10px;
+
+      p {
+        margin: 0 0 20px 0;
+        color: #555;
+        line-height: 1.6;
+      }
+    }
+
+    /* Regra ativada pelo TypeScript */
+    &.open {
+      .faq-answer {
+        max-height: 200px; 
+        padding-top: 10px;
+      }
+    }
+  }
+}

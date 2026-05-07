@@ -1,0 +1,24 @@
+<section class="faq-section">
+  <h2>Perguntas Frequentes</h2>
+  <div class="faq-container">
+    @for (faq of faqs; track faq.question; let i = $index) {
+      <div class="faq-item" [class.open]="faq.open">
+        <button class="faq-question" (click)="toggleFaq(i)">
+          {{ faq.question }}
+          <span class="icon">{{ faq.open ? '-' : '+' }}</span>
+        </button>
+        <div class="faq-answer">
+          <p>{{ faq.answer }}</p>
+        </div>
+      </div>
+    }
+
+    <!-- Nova aba de suporte direto -->
+    <div class="faq-support">
+      <p>Não encontrou o que procurava?</p>
+      <button class="btn-support" (click)="openWhatsAppSupport()">
+        Falar com o Atendimento
+      </button>
+    </div>
+  </div>
+</section>

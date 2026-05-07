@@ -1,0 +1,79 @@
+.table-container {
+  background: var(--branco, #fff);
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h2 { margin: 0; color: var(--cinza-escuro, #222); font-size: 1.4rem; }
+    .btn-export {
+      background: #f0f0f0; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; color: #555;
+      &:hover { background: #e4e4e4; }
+    }
+  }
+
+  /* Estilos da nova Toolbar */
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+      input {
+        width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95rem; font-family: inherit;
+        &:focus { outline: none; border-color: var(--verde-getgym, #8cc63f); box-shadow: 0 0 0 3px rgba(140, 198, 63, 0.2); }
+      }
+    }
+
+    .filter-tabs {
+      display: flex; background: #f4f7f6; padding: 4px; border-radius: 8px;
+      
+      button {
+        background: transparent; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; color: #777; transition: all 0.2s;
+        &.active { background: var(--branco, #fff); color: var(--cinza-escuro, #222); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        &:hover:not(.active) { color: var(--cinza-escuro, #222); }
+      }
+    }
+  }
+
+  .corporate-table {
+    width: 100%; border-collapse: collapse; text-align: left;
+
+    th, td { padding: 16px; border-bottom: 1px solid #eee; }
+    th { color: #888; font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px; }
+    
+    tbody tr {
+      transition: background 0.2s;
+      &:hover { background-color: #fcfcfc; }
+    }
+
+    .fw-bold { font-weight: 600; color: var(--cinza-escuro, #222); }
+
+    /* Estilos do Alerta de Último Acesso */
+    .access-text { font-size: 0.9rem; color: #666; font-weight: 500;}
+    .alert-text { color: #f57c00; font-weight: bold; }
+
+    .badge {
+      padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: bold;
+      &.badge-success { background: rgba(140, 198, 63, 0.2); color: #5a8525; }
+      &.badge-danger { background: rgba(255, 77, 77, 0.15); color: #d32f2f; }
+    }
+
+    .btn-whatsapp {
+      background: #25D366; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: transform 0.2s;
+      &:hover { transform: scale(1.05); }
+    }
+
+    .empty-state { text-align: center; color: #888; padding: 40x1px; font-style: italic; }
+  }
+}

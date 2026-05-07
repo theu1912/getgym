@@ -1,4 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+/* Comportamento nativo de rolagem suave */
+html {
+  scroll-behavior: smooth;
+}
+
 // Definição da Identidade GetGym
 :root {
   --verde-getgym: #8cc63f; // Esse verde limão da fachada

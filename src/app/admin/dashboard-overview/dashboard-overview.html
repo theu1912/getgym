@@ -1,0 +1,36 @@
+<div class="dashboard-container">
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <h4>Alunos Ativos</h4>
+      <div class="number">{{ totalAlunos }}</div>
+    </div>
+    <div class="kpi-card">
+      <h4>Leads da Semana</h4>
+      <div class="number text-green">{{ leadsSemana }}</div>
+    </div>
+    <!-- Novo KPI: Risco de Cancelamento -->
+    <div class="kpi-card">
+      <h4>Ausentes (+15 dias)</h4>
+      <div class="number text-orange">{{ alunosAusentes }}</div>
+      <div class="sub-text">Risco alto de cancelamento</div>
+    </div>
+    <!-- KPI Atualizado: Impacto Financeiro -->
+    <div class="kpi-card">
+      <h4>Atrasadas</h4>
+      <div class="number text-red">{{ mensalidadesAtrasadas }}</div>
+      <div class="sub-text impact-text">Impacto: {{ valorInadimplencia }}</div>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <h4>Distribuição de Planos</h4>
+    <div class="progress-bar-container">
+      <div class="progress-bar premium" [style.width.%]="percPremium">
+        Premium ({{ percPremium }}%)
+      </div>
+      <div class="progress-bar flex" [style.width.%]="percFlex">
+        Flex ({{ percFlex }}%)
+      </div>
+    </div>
+  </div>
+</div>

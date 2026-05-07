@@ -1,13 +1,11 @@
-<section class="pricing-section">
+<section class="pricing-section" id="planos">
   <div class="pricing-header">
     <h2>Escolha o seu plano</h2>
     <p>Planos flexíveis para a sua rotina e seus objetivos.</p>
   </div>
 
   <div class="pricing-cards">
-    <!-- Loop dinâmico do Angular -->
     @for (plan of plans; track plan.name) {
-      <!-- A classe 'highlighted' só é aplicada se o plano for o Premium -->
       <div class="card" [class.highlighted]="plan.highlight">
         
         @if (plan.badge) {
@@ -32,11 +30,10 @@
           }
         </ul>
 
-        <!-- Botão Dinâmico -->
         <button
           [class.btn-primary]="plan.highlight"
           [class.btn-secondary]="!plan.highlight"
-          (click)="redirectToWhatsApp(plan.whatsappMessage)">
+          (click)="garantirPlano(plan.name)">
           Garantir Este Plano
         </button>
       </div>
