@@ -70,11 +70,11 @@ export class CheckoutComponent {
   
   novoAluno = {
     nome: '',
+    telefone: '',
+    unidade: 'Fazendinha',
     plano: 'Mensal Flex',
     status: 'Em dia', 
-    telefone: '',
-    dias_ausente: 0,
-    unidade: 'Fazendinha'
+    dias_ausente: 0
   };
 
   voltar() {
@@ -82,15 +82,18 @@ export class CheckoutComponent {
   }
 
   cadastrarAluno() {
-    this.http.post('http://localhost:8000/api/alunos', this.novoAluno).subscribe({
-      next: () => {
-        alert('Matrícula realizada com sucesso! Bem-vindo à Getgym!');
-        this.router.navigate(['/admin/alunos']); // Manda direto pra tabela administrativa
-      },
-      error: (erro) => {
-        console.error('Erro ao cadastrar:', erro);
-        alert('Erro ao processar matrícula.');
-      }
-    });
+    // O seu HTML já chama o cadastrarAluno() no botão (ngSubmit).
+    // Aqui enviamos o objeto novoAluno inteiro direto para a API em Python
+    this.http.post('http://localhost:5000/api/matriculas', this.novoAluno)
+      .subscribe({
+        next: (resposta) => {
+          alert('Matrícula realizada com sucesso! Bem-vindo à Getgym.');
+          this.router.navigate(['/admin/alunos']); // Manda o Felipeira direto pra tabela pra ver o aluno novo
+        },
+        error: (erro) => {
+          console.error('Erro na matrícula:', erro);
+          alert('Falha ao comunicar com o servidor. Verifique se o Back-end (Python) está rodando na porta 5000.');
+        }
+      });
   }
 }
