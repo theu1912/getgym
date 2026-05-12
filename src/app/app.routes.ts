@@ -7,7 +7,7 @@ import { FinancialComponent } from './features/landing-page/components/financial
 import { ScheduleComponent } from './features/landing-page/components/schedule/schedule';
 import { CheckoutComponent } from './checkout.component'; 
 import { StaffScheduleComponent } from './admin/staff.schedule/staff-schedule';
-
+import { ConfirmationComponent } from './features/landing-page/components/confirmation.component';
 
 
 export const routes: Routes = [
@@ -31,5 +31,6 @@ export const routes: Routes = [
     ]
   },
 
+  { path: 'confirmacao', component: ConfirmationComponent },
   { path: '**', redirectTo: '' }
 ];

@@ -31,7 +31,7 @@ import { Router } from '@angular/router';
               </div>
               <div>
                 <label style="display: block; font-size: 0.9em; margin-bottom: 5px; color: #ccc;">Telefone (WhatsApp)</label>
-                <input type="text" [(ngModel)]="novoAluno.telefone" name="telefone" required placeholder="(41) 99999-9999" style="width: 100%; padding: 12px; background: #2d2d2d; border: 1px solid #444; color: white; border-radius: 6px; box-sizing: border-box;">
+                <input type="text" maxlength="15" [(ngModel)]="novoAluno.telefone" name="telefone" required placeholder="(41) 99999-9999" style="width: 100%; padding: 12px; background: #2d2d2d; border: 1px solid #444; color: white; border-radius: 6px; box-sizing: border-box;">
               </div>
             </div>
 
@@ -84,16 +84,15 @@ export class CheckoutComponent {
   cadastrarAluno() {
     // O seu HTML já chama o cadastrarAluno() no botão (ngSubmit).
     // Aqui enviamos o objeto novoAluno inteiro direto para a API em Python
-    this.http.post('http://localhost:5000/api/matriculas', this.novoAluno)
-      .subscribe({
-        next: (resposta) => {
+    this.http.post('http://localhost:5000/api/matriculas', this.novoAluno).subscribe({
+  next: (res) => {
           alert('Matrícula realizada com sucesso! Bem-vindo à Getgym.');
-          this.router.navigate(['/admin/alunos']); // Manda o Felipeira direto pra tabela pra ver o aluno novo
-        },
-        error: (erro) => {
-          console.error('Erro na matrícula:', erro);
-          alert('Falha ao comunicar com o servidor. Verifique se o Back-end (Python) está rodando na porta 5000.');
-        }
-      });
+          this.router.navigate(['/confirmacao']);
+  },
+        error: (err) => {
+    console.error('Erro na matrícula', err);
+    alert('Ops! Algo deu errado. Tente novamente.');
+  }
+});
   }
 }

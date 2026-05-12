@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
@@ -37,10 +37,13 @@ export class StaffScheduleComponent implements OnInit {
   profissionais: any[] = [];
   unidadeLogada = 'Fazendinha'; // No futuro, isso virá do Login
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.http.get<any[]>(`http://localhost:5000/api/profissionais?unidade=${this.unidadeLogada}`)
-      .subscribe(dados => this.profissionais = dados);
+      .subscribe(dados => {
+        this.profissionais = dados;
+        this.cdr.detectChanges();
+      });
   }
 }

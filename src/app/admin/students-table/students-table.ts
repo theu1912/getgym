@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; 
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
@@ -39,10 +39,16 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 })
 export class StudentsTableComponent implements OnInit {
   students: any[] = [];
-  constructor(private http: HttpClient) {}
+  
+  // Injetamos o "sino" aqui 
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
+  
   ngOnInit() {
     this.http.get<any[]>('http://localhost:5000/api/alunos').subscribe({
-      next: (dados) => this.students = dados,
+      next: (dados) => {
+        this.students = dados;
+        this.cdr.detectChanges(); // Avisamos a tela para desenhar na hora!
+      },
       error: (erro) => console.error('Erro:', erro)
     });
   }

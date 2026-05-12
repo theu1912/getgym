@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
@@ -9,7 +9,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   styles: [`
     .dashboard-container { padding: 30px; background-color: #f8f9fa; min-height: 100vh; font-family: 'Segoe UI', sans-serif; }
     .header-title { font-size: 1.8em; font-weight: bold; color: #1e293b; margin-bottom: 30px; }
-
 
     .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
     .card { background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); position: relative; overflow: hidden; }
@@ -30,14 +29,14 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     .panel-header { font-family: 'Georgia', serif; font-size: 1.5em; color: #1e293b; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
     .panel-subtitle { font-family: 'Segoe UI', sans-serif; font-size: 0.6em; color: #64748b; font-weight: normal; text-transform: uppercase; letter-spacing: 1px; }
 
-.chart-wrapper { height: 220px; display: flex; align-items: flex-end; gap: 6px; padding-top: 20px; width: 100%; }
-.bar-col { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+    .chart-wrapper { height: 220px; display: flex; align-items: flex-end; gap: 6px; padding-top: 20px; width: 100%; }
+    .bar-col { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
     .bar-bg { width: 100%; height: 160px; background-color: #f8fafc; border-radius: 6px; position: relative; display: flex; align-items: flex-end; }
     .bar-fill { width: 100%; background-color: #10b981; border-radius: 6px; transition: height 0.8s ease; }
     .bar-fill.high { background-color: #ef4444; } 
     .bar-fill.medium { background-color: #f59e0b; }
-    .bar-label { font-size: 0.85em; color: #64748b; font-weight: bold; }
-    .bar-value { position: absolute; top: -25px; width: 100%; text-align: center; font-size: 0.85em; font-weight: bold; color: #0f172a; }
+    .bar-label { font-size: 0.6em; color: #64748b; font-weight: bold; }
+    .bar-value { position: absolute; top: -20px; width: 100%; text-align: center; font-size: 0.6em; font-weight: bold; color: #0f172a; }
 
     .source-list { list-style: none; padding: 0; margin: 0; }
     .source-item { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1px dashed #e2e8f0; }
@@ -145,7 +144,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 export class DashboardOverviewComponent implements OnInit {
   maxVisitors = 150;
   
-  // Variáveis vazias preparadas para receber dados do PostgreSQL
   peakHours: any[] = [];
   metricas = { inscricoesHoje: 0, alunosAtivos: 0, acessosCatraca: 0, cancelamentos: 0 };
   origens = { 
@@ -154,7 +152,8 @@ export class DashboardOverviewComponent implements OnInit {
     gympass: { quantidade: 0, porcentagem: 0 }
   };
 
-  constructor(private http: HttpClient) {}
+  // Injetamos o ChangeDetectorRef aqui
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.carregarDadosDinamicamente();
@@ -167,6 +166,7 @@ export class DashboardOverviewComponent implements OnInit {
           this.metricas = dadosDoBanco.metricas;
           this.peakHours = dadosDoBanco.peakHours;
           this.origens = dadosDoBanco.origens;
+          this.cdr.detectChanges(); // Força a tela a renderizar instantaneamente!
         },
         error: (erro) => console.error('Erro na conexão com o Python:', erro)
       });

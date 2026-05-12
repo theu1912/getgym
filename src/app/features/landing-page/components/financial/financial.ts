@@ -1,127 +1,120 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, LOCALE_ID } from '@angular/core';
+import { CommonModule, registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+registerLocaleData(localePt);
 
 @Component({
   selector: 'app-financial',
   standalone: true,
   imports: [CommonModule, FormsModule, HttpClientModule],
+  providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
   styles: [`
     .dashboard-container { padding: 30px; background-color: #f5f6fa; min-height: 100vh; font-family: 'Segoe UI', sans-serif; }
-    .header-title { font-size: 1.5em; font-weight: bold; color: #333; margin-bottom: 20px; }
+    .header-title { font-size: 1.5em; font-weight: bold; color: #333; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;}
     .lock-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60vh; }
     .lock-card { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center; width: 350px; }
-    .lock-input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; text-align: center; letter-spacing: 5px;}
+    .lock-input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; text-align: center; letter-spacing: 5px; font-size: 1.2em;}
     .btn-unlock { background-color: #2d3436; color: #fff; border: none; padding: 12px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; }
-    .btn-unlock:hover { background-color: #72b146; }
-    .financial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
-    .fin-card { background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 5px solid #72b146; }
-    .fin-card.alert { border-left-color: #d63031; }
-    .fin-title { color: #888; font-size: 0.9em; text-transform: uppercase; margin-bottom: 10px; }
-    .fin-value { font-size: 2em; font-weight: bold; color: #2d3436; }
-    .dashboard-bottom { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
-    .panel-section { background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-    .section-title { font-size: 1.2em; font-weight: bold; color: #333; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-    .progress-stacked { display: flex; height: 25px; border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
-    .bar-anual { background-color: #2d3436; }
-    .bar-semestral { background-color: #72b146; }
-    .bar-mensal { background-color: #ffeaa7; }
-    .legend-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9em; }
-    .legend-color { width: 12px; height: 12px; border-radius: 3px; display: inline-block; margin-right: 8px; }
+    .btn-lock { background-color: #ef4444; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-size: 0.8em; }
 
-    /* Estilos do Modal e Botão de Adicionar */
-    .btn-add { background-color: #ef4444; color: white; border: none; padding: 6px 15px; border-radius: 4px; cursor: pointer; font-size: 0.75em; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; }
-    .btn-add:hover { background-color: #dc2626; }
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(2px); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-    .modal-card { background: white; padding: 30px; border-radius: 8px; width: 380px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-    .form-input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 6px; box-sizing: border-box; font-family: inherit; }
-    .form-input:focus { outline: none; border-color: #ef4444; }
+    .financial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
+    .fin-card { background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-left: 4px solid #10b981; }
+    .fin-card.alert { border-left-color: #ef4444; }
+    .fin-title { font-size: 0.85em; font-weight: 600; color: #64748b; text-transform: uppercase; margin-bottom: 10px; }
+    .fin-value { font-size: 2em; font-weight: bold; color: #0f172a; }
   `],
   template: `
     <div class="dashboard-container">
+      
       <div *ngIf="!isUnlocked" class="lock-screen">
         <div class="lock-card">
-          <h3 style="margin-bottom: 20px;">Acesso Restrito</h3>
-          <input type="password" class="lock-input" placeholder="••••••••" [(ngModel)]="pinInput" (keyup.enter)="unlock()">
-          <div style="color: #d63031; margin-bottom: 15px;">{{ errorMessage }}</div>
+          <h2 style="margin-bottom: 20px; color: #333;">Acesso Restrito</h2>
+          <input type="password" class="lock-input" [(ngModel)]="pinInput" placeholder="PIN" maxlength="6" (keyup.enter)="unlock()">
+          <div *ngIf="errorMessage" style="color: #ef4444; margin-bottom: 15px; font-size: 0.9em;">{{ errorMessage }}</div>
           <button class="btn-unlock" (click)="unlock()">Desbloquear Cofre</button>
         </div>
       </div>
 
       <div *ngIf="isUnlocked">
-        <div style="overflow: hidden; margin-bottom: 20px;">
-          <h2 class="header-title" style="float: left;">Gestão Financeira e Faturamento</h2>
-          <button (click)="lock()" style="float: right; border: 1px solid #d63031; color: #d63031; background: transparent; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">Bloquear Tela</button>
+        <div class="header-title">
+          Gestão Financeira
+          <button class="btn-lock" (click)="lock()">Bloquear Painel 🔒</button>
         </div>
 
         <div class="financial-grid">
-          <div class="fin-card"><div class="fin-title">Faturamento (Mês)</div><div class="fin-value">R$ 142.500,00</div></div>
-          <div class="fin-card"><div class="fin-title">Receita Realizada</div><div class="fin-value">R$ 98.450,00</div></div>
-          <div class="fin-card alert"><div class="fin-title">Inadimplência</div><div class="fin-value" style="color: #d63031;">R$ 4.890,00</div></div>
+          <div class="fin-card">
+            <div class="fin-title">Faturamento Estimado (Mês)</div>
+            <div class="fin-value">{{ resumo.faturamento | currency:'BRL':'symbol':'1.2-2' }}</div>
+          </div>
+          <div class="fin-card">
+            <div class="fin-title">Receita Realizada (Livre)</div>
+            <div class="fin-value" [style.color]="resumo.receita < 0 ? '#ef4444' : '#2d3436'">
+              {{ resumo.receita | currency:'BRL':'symbol':'1.2-2' }}
+            </div>
+          </div>
+          <div class="fin-card alert">
+            <div class="fin-title">Inadimplência (Histórico)</div>
+            <div class="fin-value" style="color: #d63031;">{{ resumo.inadimplencia | currency:'BRL':'symbol':'1.2-2' }}</div>
+          </div>
         </div>
 
-        <div class="dashboard-bottom">
-          <div class="panel-section">
-            <div class="section-title" style="color: #ef4444; border-bottom-color: #fee2e2;">
-              Saídas de Caixa
-              <button class="btn-add" (click)="abrirModal()">+ Nova Despesa</button>
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+          
+          <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+              <h3 style="color: #1e293b; margin: 0;">Controle de Despesas</h3>
+              <button (click)="abrirModal()" style="background-color: #ef4444; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.85em;">+ NOVA DESPESA</button>
             </div>
+            
             <table style="width: 100%; border-collapse: collapse; text-align: left;">
               <thead>
-                <tr style="color: #94a3b8; font-size: 0.8em;">
-                  <th>CATEGORIA</th><th>VENCIMENTO</th><th>VALOR</th><th>STATUS</th>
+                <tr style="border-bottom: 1px solid #f1f5f9; background: #f8fafc;">
+                  <th style="padding: 15px 20px; color: #64748b; font-size: 0.85em; font-weight: 600;">CATEGORIA</th>
+                  <th style="padding: 15px 20px; color: #64748b; font-size: 0.85em; font-weight: 600;">VENCIMENTO</th>
+                  <th style="padding: 15px 20px; color: #64748b; font-size: 0.85em; font-weight: 600;">VALOR</th>
+                  <th style="padding: 15px 20px; color: #64748b; font-size: 0.85em; font-weight: 600;">STATUS</th>
+                  <th style="padding: 15px 20px; color: #64748b; font-size: 0.85em; font-weight: 600;">AÇÕES</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let despesa of despesas" style="border-bottom: 1px solid #f1f5f9;">
-                  <td style="font-weight: bold; color: #ef4444;">R$ {{ despesa.valor }}</td>
-                  <td>
-                    <span [style.color]="despesa.status === 'Pago' ? '#72b146' : '#f59e0b'" style="font-weight: bold; cursor: pointer;" (click)="mudarStatus(despesa)">
+                  <td style="padding: 15px 20px; font-weight: 600;">{{ despesa.categoria }}</td>
+                  <td style="padding: 15px 20px;">{{ despesa.vencimento }}</td>
+                  <td style="padding: 15px 20px; color: #ef4444; font-weight: bold;">{{ despesa.valor | currency:'BRL':'symbol':'1.2-2' }}</td>
+                  <td style="padding: 15px 20px;">
+                    <span (click)="mudarStatus(despesa)" style="cursor: pointer; padding: 6px 12px; border-radius: 20px; font-weight: bold; font-size: 0.75em;"
+                          [ngStyle]="{'background': despesa.status === 'Pago' ? '#d1fae5' : '#fee2e2', 'color': despesa.status === 'Pago' ? '#10b981' : '#ef4444'}">
                       {{ despesa.status }} 🔁
                     </span>
                   </td>
-                  <td>
-                    <button (click)="editarValor(despesa)" style="background: transparent; border: none; cursor: pointer; font-size: 1.2em;" title="Editar Valor">✏️</button>
-                    <button (click)="excluirDespesa(despesa.id)" style="background: transparent; border: none; cursor: pointer; font-size: 1.2em;" title="Excluir">🗑️</button>
+                  <td style="padding: 15px 20px; display: flex; gap: 15px;">
+                    <svg (click)="editarValor(despesa)" style="cursor: pointer;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    <svg (click)="excluirDespesa(despesa.id)" style="cursor: pointer;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <div class="panel-section">
-            <div class="section-title">Distribuição de Planos</div>
-            <div class="progress-stacked">
-              <div class="bar-anual" [style.width.%]="planDistribution.anual"></div>
-              <div class="bar-semestral" [style.width.%]="planDistribution.semestral"></div>
-              <div class="bar-mensal" [style.width.%]="planDistribution.mensal"></div>
+          <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+            <h3 style="color: #1e293b; margin-top: 0; margin-bottom: 20px;">Distribuição de Planos</h3>
             </div>
-            <div class="legend-item"><div><span class="legend-color bar-anual"></span> Anual</div><strong>{{ planDistribution.anual }}%</strong></div>
-            <div class="legend-item"><div><span class="legend-color bar-semestral"></span> Semestral</div><strong>{{ planDistribution.semestral }}%</strong></div>
-            <div class="legend-item"><div><span class="legend-color bar-mensal"></span> Mensal</div><strong>{{ planDistribution.mensal }}%</strong></div>
-          </div>
         </div>
-      </div>
-    </div>
 
-    <div class="modal-overlay" *ngIf="modalAberto">
-      <div class="modal-card">
-        <h3 style="margin-top: 0; color: #1e293b; margin-bottom: 20px;">Registrar Nova Saída</h3>
-        
-        <input class="form-input" placeholder="Categoria (ex: Internet, Manutenção)" [(ngModel)]="novaDespesa.categoria">
-        <input class="form-input" placeholder="Vencimento (ex: 20/05/2026)" [(ngModel)]="novaDespesa.vencimento">
-        <input class="form-input" placeholder="Valor (ex: 150,00)" [(ngModel)]="novaDespesa.valor">
-        
-        <select class="form-input" [(ngModel)]="novaDespesa.status">
-          <option value="Pendente">Pendente</option>
-          <option value="Pago">Pago</option>
-          
-        </select>
-        
-        <div style="display: flex; gap: 10px; margin-top: 10px;">
-          <button (click)="modalAberto = false" style="flex: 1; background: #f1f5f9; color: #475569; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">Cancelar</button>
-          <button (click)="salvarDespesa()" style="flex: 1; background: #ef4444; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">Salvar</button>
+        <div *ngIf="modalAberto" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+          <div style="background: white; padding: 30px; border-radius: 8px; width: 380px;">
+            <h3 style="margin-top: 0; color: #1e293b; margin-bottom: 20px;">Registrar Nova Saída</h3>
+            <input style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 6px;" placeholder="Categoria" [(ngModel)]="novaDespesa.categoria">
+            <input style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 6px;" type="date" [(ngModel)]="novaDespesa.vencimento">
+            <input style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 6px;" placeholder="Valor" type="number" [(ngModel)]="novaDespesa.valor">
+            <div style="display: flex; gap: 10px;">
+              <button (click)="modalAberto = false" style="flex: 1; background: #f1f5f9; padding: 12px; border-radius: 6px; border: none; cursor: pointer;">Cancelar</button>
+              <button (click)="salvarDespesa()" style="flex: 1; background: #ef4444; color: white; padding: 12px; border-radius: 6px; border: none; cursor: pointer;">Salvar</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -131,85 +124,78 @@ export class FinancialComponent {
   isUnlocked = false;
   pinInput = '';
   errorMessage = '';
-  
 
-  // Lógica do Modal de Despesas
+  despesas: any[] = [];
+  planDistribution: any = { anual: 0, semestral: 0, mensal: 0 };
+  resumo = { faturamento: 0, receita: 0, inadimplencia: 0 };
+
   modalAberto = false;
-  novaDespesa = { categoria: '', vencimento: '', valor: '', status: 'Pendente' };
-
-  mudarStatus(despesa: any) {
-    const novoStatus = despesa.status === 'Pago' ? 'Pendente' : 'Pago';
-    this.http.put(`http://localhost:5000/api/financeiro/despesas/${despesa.id}`, { status: novoStatus })
-      .subscribe(() => despesa.status = novoStatus);
-  }
-
-  editarValor(despesa: any) {
-    const novoValor = prompt('Digite o novo valor (ex: 1.500,00):', despesa.valor);
-    if (novoValor && novoValor !== despesa.valor) {
-      this.http.put(`http://localhost:5000/api/financeiro/despesas/${despesa.id}`, { valor: novoValor })
-        .subscribe(() => despesa.valor = novoValor);
-    }
-  }
-
-  excluirDespesa(id: number) {
-    if (confirm('Tem certeza que deseja apagar esta despesa permanentemente?')) {
-      this.http.delete(`http://localhost:5000/api/financeiro/despesas/${id}`)
-        .subscribe(() => this.carregarDadosFinanceiros()); // Recarrega a tabela atualizada
-    }
-  }
-
-  planDistribution = { anual: 55, semestral: 30, mensal: 15 };
-  despesas: any[] = [
-    { categoria: 'Manutenção Equipamentos', vencimento: '15/05/2026', valor: '1.200,00', status: 'Pendente' },
-    { categoria: 'Energia (Uplay)', vencimento: '10/05/2026', valor: '2.450,00', status: 'Pago' },
-    { categoria: 'Aluguel Fazendinha', vencimento: '05/05/2026', valor: '8.000,00', status: 'Pago' }
-  ];
+  novaDespesa: any = { categoria: '', vencimento: '', valor: null, status: 'Pendente', unidade: 'Fazendinha' };
 
   constructor(private http: HttpClient) {}
 
   unlock() {
     this.http.post<any>('http://localhost:5000/api/auth/financeiro', { pin: this.pinInput })
       .subscribe({
-        next: (response) => {
+        next: () => {
           this.isUnlocked = true;
           this.errorMessage = '';
           this.pinInput = ''; 
-          this.carregarDadosFinanceiros(); // CHAMA O BANCO DE DADOS ASSIM QUE DESBLOQUEAR
+          this.carregarDadosFinanceiros();
         },
-        error: (err) => {
-          this.errorMessage = 'Acesso negado pelo servidor. PIN incorreto.';
+        error: () => {
+          this.errorMessage = 'PIN incorreto.';
           this.pinInput = '';
         }
       });
   }
 
   carregarDadosFinanceiros() {
-    this.http.get<any>('http://localhost:5000/api/financeiro/dados')
+    this.http.get<any>('http://localhost:5000/api/financeiro/dados?unidade=Fazendinha')
       .subscribe({
         next: (dados) => {
           this.despesas = dados.despesas;
           this.planDistribution = dados.planDistribution;
-        },
-        error: (erro) => console.error('Erro ao buscar dados financeiros:', erro)
+          this.resumo = dados.resumo;
+        }
       });
   }
 
-  lock() {
-    this.isUnlocked = false;
-  }
+  lock() { this.isUnlocked = false; }
 
-  // Funções do Modal
   abrirModal() {
-    this.novaDespesa = { categoria: '', vencimento: '', valor: '', status: 'Pendente' };
+    this.novaDespesa = { categoria: '', vencimento: '', valor: null, status: 'Pendente', unidade: 'Fazendinha' };
     this.modalAberto = true;
   }
 
   salvarDespesa() {
-    if (this.novaDespesa.categoria && this.novaDespesa.valor) {
-      this.despesas.push({ ...this.novaDespesa });
-      this.modalAberto = false;
-    } else {
-      alert("Por favor, preencha a categoria e o valor.");
+    if (this.novaDespesa.categoria && this.novaDespesa.valor && this.novaDespesa.vencimento) {
+      this.http.post('http://localhost:5000/api/financeiro/despesas', this.novaDespesa)
+        .subscribe(() => {
+          this.modalAberto = false;
+          this.carregarDadosFinanceiros();
+        });
+    }
+  }
+
+  mudarStatus(despesa: any) {
+    const novoStatus = despesa.status === 'Pago' ? 'Pendente' : 'Pago';
+    this.http.put(`http://localhost:5000/api/financeiro/despesas/${despesa.id}`, { status: novoStatus })
+      .subscribe(() => this.carregarDadosFinanceiros());
+  }
+
+  editarValor(despesa: any) {
+    const novoValor = prompt('Digite o novo valor para ' + despesa.categoria, despesa.valor);
+    if (novoValor) {
+      this.http.put(`http://localhost:5000/api/financeiro/despesas/${despesa.id}`, { valor: parseFloat(novoValor) })
+        .subscribe(() => this.carregarDadosFinanceiros());
+    }
+  }
+
+  excluirDespesa(id: number) {
+    if (confirm('Deseja excluir esta despesa?')) {
+      this.http.delete(`http://localhost:5000/api/financeiro/despesas/${id}`)
+        .subscribe(() => this.carregarDadosFinanceiros());
     }
   }
 }
