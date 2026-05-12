@@ -1,36 +1,20 @@
 import { Routes } from '@angular/router';
-import { LandingPageComponent } from './features/landing-page/landing-page';
-import { AdminLayoutComponent } from './admin/admin-layout/admin-layout';
-import { DashboardOverviewComponent } from './admin/dashboard-overview/dashboard-overview';
-import { StudentsTableComponent } from './admin/students-table/students-table';
 import { FinancialComponent } from './features/landing-page/components/financial/financial';
-import { ScheduleComponent } from './features/landing-page/components/schedule/schedule';
-import { CheckoutComponent } from './checkout.component'; 
-import { StaffScheduleComponent } from './admin/staff.schedule/staff-schedule';
-import { ConfirmationComponent } from './features/landing-page/components/confirmation.component';
-
+import { authGuard } from './auth-guard';
+import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
-  { path: '', component: LandingPageComponent },
+  // A rota padrão agora é o Login (Aberto ao público)
+  { path: 'login', component: LoginComponent },
   
-  { path: 'checkout', component: CheckoutComponent },
-
-  {
-    path: 'admin',
-    component: AdminLayoutComponent,
-    children: [
-      { path: 'dashboard', component: DashboardOverviewComponent },
-      { path: 'alunos', component: StudentsTableComponent },
-      { path: 'financeiro', component: FinancialComponent },
-      { path: 'aulas', component: ScheduleComponent },
-      
-      // 2. A rota inserida corretamente DENTRO dos children do admin
-      { path: 'profissionais', component: StaffScheduleComponent },
-      
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
-    ]
+  // O Financeiro continua blindado pelo segurança
+  { 
+    path: 'financeiro', 
+    component: FinancialComponent, 
+    canActivate: [authGuard] 
   },
-
-  { path: 'confirmacao', component: ConfirmationComponent },
-  { path: '**', redirectTo: '' }
+  
+  // Se o usuário digitar o link vazio, joga pro login
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '**', redirectTo: 'login' }
 ];
