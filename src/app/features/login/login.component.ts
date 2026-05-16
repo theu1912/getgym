@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -40,7 +40,7 @@ export class LoginComponent {
           localStorage.setItem('token', response.token);
           
           // Libera a catraca e manda para o painel!
-          this.router.navigate(['/financeiro']);
+          this.router.navigate(['/admin/financeiro']);
         },
         error: (err) => {
           this.errorMessage = 'Acesso negado pelo servidor. PIN incorreto.';

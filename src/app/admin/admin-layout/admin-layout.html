@@ -5,13 +5,15 @@
       <h2>GETGYM <span>Admin</span></h2>
     </div>
 
-    <div class="sidebar-menu">
-      <a routerLink="/admin/dashboard" class="menu-item" routerLinkActive="active">Visão Geral</a>
-      <a routerLink="/admin/alunos" class="menu-item" routerLinkActive="active">Gestão de Alunos</a>
-      <a routerLink="/admin/aulas" class="menu-item" routerLinkActive="active">Grade de Aulas</a>
-      <a routerLink="/admin/financeiro" class="menu-item" routerLinkActive="active">Financeiro (Restrito)</a>
-    <a routerLink="/admin/profissionais" class="menu-item" routerLinkActive="active">Grade da Equipe</a>
-</div>
+    <nav class="sidebar-menu">
+  <a routerLink="/admin/dashboard" routerLinkActive="active">Visão Geral</a>
+  <a routerLink="/admin/alunos" routerLinkActive="active">Gestão de Alunos</a>
+  
+  <a routerLink="/admin/aulas" routerLinkActive="active">Grade de Aulas</a>
+  
+  <a routerLink="/admin/equipe" routerLinkActive="active">Grade da Equipe</a>
+  <a routerLink="/admin/financeiro" routerLinkActive="active">Financeiro (Restrito)</a>
+</nav>
 
     <div class="sidebar-footer">
       <a routerLink="/" class="menu-item exit-btn">Sair do Painel</a>

@@ -31,11 +31,12 @@
         </ul>
 
         <button
+          type="button"
           [class.btn-primary]="plan.highlight"
-          [class.btn-secondary]="!plan.highlight"
-          (click)="garantirPlano(plan.name)">
-          Garantir Este Plano
-        </button>
+         [class.btn-secondary]="!plan.highlight"
+         (click)="$event.preventDefault(); garantirPlano(plan.name)">
+        Garantir Este Plano
+</button>
       </div>
     }
   </div>

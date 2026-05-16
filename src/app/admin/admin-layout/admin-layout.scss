@@ -109,3 +109,23 @@
   flex-grow: 1;
   background-color: #f5f6fa;
 }
+
+.sidebar-menu a {
+  /* 1. Remove o sublinhado padrão do navegador */
+  text-decoration: none; 
+  
+  /* 2. Força uma cor de texto neutra (ajuste o código da cor para o cinza/branco exato do seu tema) */
+  color: #a0a0a0; 
+  
+  /* 3. Garante que o link ocupa o espaço inteiro para ser fácil de clicar */
+  display: block; 
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+}
+
+/* 4. O efeito ao passar o rato (hover) e a classe 'active' que o Angular adiciona automaticamente */
+.sidebar-menu a:hover, 
+.sidebar-menu a.active {
+  color: #ffffff; /* Fica branco puro ao passar o rato ou quando a página está ativa */
+  font-weight: bold;
+}
