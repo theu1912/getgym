@@ -1,0 +1,88 @@
+<div class="checkout">
+  <header class="checkout__header">
+    <h1 class="checkout__logo" (click)="voltar()">GETGYM</h1>
+    <button type="button" class="checkout__back-btn" (click)="voltar()">Voltar ao Site</button>
+  </header>
+
+  <main class="checkout__main">
+    <div class="checkout__intro">
+      <h2 class="checkout__title">Assine agora. Treine hoje.</h2>
+      <p class="checkout__subtitle">Processo 100% automatizado. Sem filas, sem WhatsApp.</p>
+    </div>
+
+    <div class="checkout__card">
+      <form class="checkout__form" (ngSubmit)="cadastrarAluno()">
+        <div class="checkout__column">
+          <h3 class="checkout__section-title">1. Seus Dados</h3>
+
+          <div class="checkout__field">
+            <label class="checkout__label" for="nome">Nome Completo</label>
+            <input
+              id="nome"
+              name="nome"
+              type="text"
+              class="checkout__input"
+              placeholder="Digite seu nome"
+              required
+              [ngModel]="nome()"
+              (ngModelChange)="nome.set($event)">
+          </div>
+
+          <div class="checkout__field">
+            <label class="checkout__label" for="telefone">Telefone (WhatsApp)</label>
+            <input
+              id="telefone"
+              name="telefone"
+              type="tel"
+              maxlength="15"
+              class="checkout__input"
+              placeholder="(41) 99999-9999"
+              pattern="\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}"
+              required
+              [ngModel]="telefone()"
+              (ngModelChange)="telefone.set($event)">
+          </div>
+        </div>
+
+        <div class="checkout__column">
+          <h3 class="checkout__section-title">2. Escolha seu Treino</h3>
+
+          <div class="checkout__field">
+            <label class="checkout__label" for="unidade">Unidade de Treino</label>
+            <select
+              id="unidade"
+              name="unidade"
+              class="checkout__select"
+              [ngModel]="unidade()"
+              (ngModelChange)="unidade.set($event)">
+              <option value="Fazendinha">Fazendinha (Matriz)</option>
+              <option value="Piraquara">Piraquara</option>
+              <option value="Pinhais">Pinhais</option>
+            </select>
+          </div>
+
+          <div class="checkout__field">
+            <label class="checkout__label" for="plano">Plano Desejado</label>
+            <select
+              id="plano"
+              name="plano"
+              class="checkout__select"
+              [ngModel]="plano()"
+              (ngModelChange)="plano.set($event)">
+              <option value="Mensal Flex">Mensal Flex — R$ 119,90/mês</option>
+              <option value="Semestral PRO">Semestral PRO — R$ 99,90/mês</option>
+              <option value="Anual Premium">Anual Premium — R$ 79,90/mês</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="checkout__submit-row">
+          <div class="checkout__error" *ngIf="erro()">{{ erro() }}</div>
+          <button type="submit" class="checkout__submit" [disabled]="botaoDesabilitado()">
+            {{ enviando() ? 'Enviando...' : 'Finalizar Matrícula' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>

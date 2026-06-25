@@ -1,0 +1,146 @@
+$bg-dark: #121212;
+$surface: #1e1e1e;
+$brand-green: #72b146;
+$text-muted: #aaaaaa;
+
+$header-bg: #1a1a1a;
+$border-subtle: #2d2d2d;
+$card-border: #333;
+$input-bg: #2d2d2d;
+$input-border: #444;
+$text-light: #e0e0e0;
+$text-label: #cccccc;
+$error: #ef4444;
+
+.checkout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: $bg-dark;
+  color: $text-light;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: $header-bg;
+    border-bottom: 2px solid $border-subtle;
+  }
+
+  &__logo {
+    margin: 0;
+    color: $brand-green;
+    font-size: 1.8em;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+
+  &__back-btn {
+    padding: 8px 15px;
+    background: transparent;
+    color: $text-muted;
+    border: 1px solid $input-border;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  &__main {
+    flex: 1;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    box-sizing: border-box;
+  }
+
+  &__intro {
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  &__title {
+    margin-bottom: 10px;
+    color: #ffffff;
+    font-size: 2.5em;
+  }
+
+  &__subtitle {
+    color: $text-muted;
+    font-size: 1.1em;
+  }
+
+  &__card {
+    padding: 40px;
+    background: $surface;
+    border: 1px solid $card-border;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  &__form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+  }
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  &__section-title {
+    margin: 0 0 10px 0;
+    padding-bottom: 10px;
+    color: $brand-green;
+    border-bottom: 1px solid $card-border;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 5px;
+    color: $text-label;
+    font-size: 0.9em;
+  }
+
+  &__input,
+  &__select {
+    width: 100%;
+    padding: 12px;
+    background: $input-bg;
+    color: #ffffff;
+    border: 1px solid $input-border;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+
+  &__submit-row {
+    grid-column: span 2;
+    margin-top: 20px;
+  }
+
+  &__error {
+    margin-bottom: 12px;
+    color: $error;
+    text-align: center;
+  }
+
+  &__submit {
+    width: 100%;
+    padding: 15px;
+    background-color: $brand-green;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
