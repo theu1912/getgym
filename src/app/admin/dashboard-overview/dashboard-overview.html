@@ -1,0 +1,105 @@
+<div class="dashboard">
+  <h2 class="dashboard__title">Visão Estratégica</h2>
+
+  <div class="dashboard__metrics">
+    <div class="dashboard__card dashboard__card--blue">
+      <div class="dashboard__card-title">Inscrições Hoje</div>
+      <div class="dashboard__card-value">{{ metricas().inscricoesHoje }}</div>
+      <div class="dashboard__card-sub">Atualizado em tempo real</div>
+    </div>
+
+    <div class="dashboard__card dashboard__card--green">
+      <div class="dashboard__card-title">Alunos Ativos</div>
+      <div class="dashboard__card-value">{{ metricas().alunosAtivos }}</div>
+      <div class="dashboard__card-sub">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+          <polyline points="17 6 23 6 23 12"/>
+        </svg>
+        {{ percentualMeta() }}% da meta mensal
+      </div>
+    </div>
+
+    <div class="dashboard__card dashboard__card--yellow">
+      <div class="dashboard__card-title">Acessos na Catraca</div>
+      <div class="dashboard__card-value">{{ metricas().acessosCatraca }}</div>
+      <div class="dashboard__card-sub">Até o momento</div>
+    </div>
+
+    <div class="dashboard__card dashboard__card--red">
+      <div class="dashboard__card-title">Cancelamentos (30d)</div>
+      <div class="dashboard__card-value">{{ metricas().cancelamentos }}</div>
+      <div class="dashboard__card-sub dashboard__card-sub--negative">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/>
+          <polyline points="17 18 23 18 23 12"/>
+        </svg>
+        Ação de resgate necessária
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard__panels">
+    <div class="dashboard__panel">
+      <div class="dashboard__panel-header">
+        Mapa de Calor diário
+        <span class="dashboard__panel-subtitle">Horários de Pico (Hoje)</span>
+      </div>
+      <div class="dashboard__chart">
+        @for (peak of peakHours(); track peak.time) {
+          <div class="dashboard__bar-col">
+            <div class="dashboard__bar-bg">
+              <span class="dashboard__bar-value">{{ peak.visitors }}</span>
+              <div
+                class="dashboard__bar-fill"
+                [class.dashboard__bar-fill--high]="peak.visitors > 100"
+                [class.dashboard__bar-fill--medium]="peak.visitors > 50 && peak.visitors <= 100"
+                [style.height.%]="barHeight(peak.visitors)">
+              </div>
+            </div>
+            <span class="dashboard__bar-label">{{ peak.time }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="dashboard__panel">
+      <div class="dashboard__panel-header">
+        Origem das Matrículas
+        <span class="dashboard__panel-subtitle">Últimos 7 dias</span>
+      </div>
+      <ul class="dashboard__source-list">
+        <li class="dashboard__source-item">
+          <div class="dashboard__source-info">
+            <span class="dashboard__dot dashboard__dot--site"></span>
+            Site Oficial
+          </div>
+          <div>
+            <span class="dashboard__source-number">{{ origens().site.quantidade }}</span>
+            <span class="dashboard__source-percent">({{ origens().site.porcentagem }}%)</span>
+          </div>
+        </li>
+        <li class="dashboard__source-item">
+          <div class="dashboard__source-info">
+            <span class="dashboard__dot dashboard__dot--presencial"></span>
+            Balcão / Presencial
+          </div>
+          <div>
+            <span class="dashboard__source-number">{{ origens().presencial.quantidade }}</span>
+            <span class="dashboard__source-percent">({{ origens().presencial.porcentagem }}%)</span>
+          </div>
+        </li>
+        <li class="dashboard__source-item">
+          <div class="dashboard__source-info">
+            <span class="dashboard__dot dashboard__dot--gympass"></span>
+            Plataformas (Gympass)
+          </div>
+          <div>
+            <span class="dashboard__source-number">{{ origens().gympass.quantidade }}</span>
+            <span class="dashboard__source-percent">({{ origens().gympass.porcentagem }}%)</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

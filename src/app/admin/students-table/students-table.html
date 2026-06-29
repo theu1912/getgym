@@ -1,0 +1,95 @@
+<div class="students">
+  <div class="students__header">
+    <h2 class="students__title">Gestão de Alunos</h2>
+    <button class="students__export-btn" (click)="exportarRelatorio()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Exportar CSV
+    </button>
+  </div>
+
+  @if (erro()) {
+    <div class="students__error">{{ erro() }}</div>
+  }
+
+  <div class="students__card">
+    <table class="students__table">
+      <thead>
+        <tr>
+          <th class="students__th">ID</th>
+          <th class="students__th">NOME</th>
+          <th class="students__th">MATRICULA</th>
+          <th class="students__th">PLANO</th>
+          <th class="students__th">STATUS</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (carregando()) {
+          <tr>
+            <td class="students__td students__empty" colspan="5">Carregando...</td>
+          </tr>
+        } @else if (students().length === 0) {
+          <tr>
+            <td class="students__td students__empty" colspan="5">Nenhum aluno encontrado.</td>
+          </tr>
+        } @else {
+          @for (student of students(); track student.id) {
+            <tr class="students__row" (click)="abrirDrawer(student)">
+              <td class="students__td">{{ student.id }}</td>
+              <td class="students__td students__td--bold">{{ student.nome }}</td>
+              <td class="students__td students__td--muted">{{ student.ultimoAcesso }}</td>
+              <td class="students__td">{{ student.plano }}</td>
+              <td class="students__td">
+                <span [class]="badgeClass(student.status)">{{ student.status }}</span>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+@if (alunoSelecionado()) {
+  <div class="students__overlay" (click)="fecharDrawer()"></div>
+  <aside class="students__drawer">
+    <div class="students__drawer-header">
+      <h3 class="students__drawer-name">{{ alunoSelecionado()!.nome }}</h3>
+      <button class="students__drawer-close" (click)="fecharDrawer()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="students__drawer-body">
+      <div class="students__drawer-field">
+        <span class="students__drawer-label">Plano</span>
+        <span class="students__drawer-value">{{ alunoSelecionado()!.plano }}</span>
+      </div>
+      <div class="students__drawer-field">
+        <span class="students__drawer-label">Matrícula</span>
+        <span class="students__drawer-value">{{ alunoSelecionado()!.ultimoAcesso }}</span>
+      </div>
+
+      <div class="students__drawer-section">
+        <h4 class="students__drawer-section-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+          Alterar Status
+        </h4>
+        <select class="students__status-select" (change)="onStatusChange($event, alunoSelecionado()!)">
+          @for (opcao of opcoesStatus; track opcao) {
+            <option [value]="opcao" [selected]="statusEditando() === opcao">{{ opcao }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  </aside>
+}
